@@ -1,7 +1,9 @@
 import axios from "axios";
 
+console.log("VITE_API_URL =>", import.meta.env.VITE_API_URL);
+
 const API = axios.create({
-  baseURL: import.meta.env.VITE_SERVER_URL,
+  baseURL: import.meta.env.VITE_API_URL,
 });
 
 API.interceptors.request.use((config) => {
@@ -10,6 +12,8 @@ API.interceptors.request.use((config) => {
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
+
+  console.log("Request URL =>", `${config.baseURL}${config.url}`);
 
   return config;
 });
