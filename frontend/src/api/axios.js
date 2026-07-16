@@ -1,12 +1,10 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: "https://sanskar-vidya-mandir-school.onrender.com/api",
 });
 
-// Automatically attach JWT token
 API.interceptors.request.use((config) => {
-
   const token = localStorage.getItem("token");
 
   if (token) {
