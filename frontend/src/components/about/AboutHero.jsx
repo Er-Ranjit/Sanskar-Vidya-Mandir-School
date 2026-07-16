@@ -43,10 +43,10 @@ const AboutHero = () => {
               {/* Outer Amber Shimmer Blur Effect Ring */}
               <div className="absolute inset-0 rounded-full bg-amber-400 blur opacity-30 group-hover:opacity-60 transition duration-500"></div>
               <img
-                src={`http://localhost:5000${settings.logo}`}
-                alt="School Logo"
-                className="relative w-20 h-20 md:w-22 md:h-22 rounded-full bg-white p-1.5 border-2 border-amber-400 shadow-xl block mx-auto"
-              />
+  src={`${import.meta.env.VITE_SERVER_URL}${settings.logo}`}
+  alt="School Logo"
+  className="relative w-20 h-20 md:w-22 md:h-22 rounded-full bg-white p-1.5 border-2 border-amber-400 shadow-xl block mx-auto"
+/>
             </div>
           </div>
         )}
