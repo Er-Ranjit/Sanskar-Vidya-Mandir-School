@@ -89,12 +89,12 @@ const EventGallery = () => {
 
                 {/* Smooth Zoom Photo Frame Wrapper */}
                 <div className="w-full h-56 overflow-hidden relative bg-slate-50 border-b border-slate-100">
-                  <img
-                    src={`http://localhost:5000${item.image}`}
-                    alt={item.title}
-                    loading="lazy"
-                    className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                  />
+                 <img
+  src={`${import.meta.env.VITE_SERVER_URL}${item.image}`}
+  alt={item.title}
+  loading="lazy"
+  className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+/>
                   
                   {/* Subtle Dark Vignette Mask on Card Image Hover */}
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />

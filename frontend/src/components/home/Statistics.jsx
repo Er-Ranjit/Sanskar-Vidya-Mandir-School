@@ -38,14 +38,16 @@ const Statistics = () => {
     fetchSettings();
   }, []);
 
-  const fetchSettings = async () => {
-    try {
-      const { data } = await axios.get("http://localhost:5000/api/settings");
-      setSettings(data.settings);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+ const fetchSettings = async () => {
+  try {
+    const { data } = await axios.get(
+      `${import.meta.env.VITE_API_URL}/settings`
+    );
+    setSettings(data.settings);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
   const stats = [
     { value: settings?.totalStudents || 1200, label: "Enrolled Students" },

@@ -109,7 +109,7 @@ const Hero = () => {
               <div className="relative inline-block group">
                 <div className="absolute inset-0 rounded-full bg-amber-400 blur opacity-30 group-hover:opacity-60 transition duration-500"></div>
                 <img
-                  src={`http://localhost:5000${settings.logo}`}
+                  src={`${import.meta.env.VITE_SERVER_URL}${settings.logo}`}
                   alt="School Logo"
                   className="relative w-14 h-14 md:w-16 md:h-16 rounded-full bg-white p-1 border-2 border-amber-400 shadow-md block mx-auto"
                 />

@@ -54,10 +54,10 @@ const AcademicsHero = () => {
               <div className="relative inline-block">
                 <div className="absolute inset-0 rounded-full bg-amber-400 blur-md opacity-20 animate-pulse"></div>
                 <img
-                  src={`http://localhost:5000${settings.logo}`}
-                  alt="School Logo"
-                  className="relative w-16 h-16 md:w-20 md:h-20 rounded-full bg-white p-1.5 border-2 border-amber-400 shadow-2xl block mx-auto"
-                />
+  src={`${import.meta.env.VITE_SERVER_URL}${settings.logo}`}
+  alt="School Logo"
+  className="relative w-16 h-16 md:w-20 md:h-20 rounded-full bg-white p-1.5 border-2 border-amber-400 shadow-2xl block mx-auto"
+/>
               </div>
             </div>
           )}
@@ -97,12 +97,12 @@ const AcademicsHero = () => {
 
             {/* Conditional File Downloader linking directly with backend static settings */}
             {settings?.prospectus ? (
-              <a
-                href={`http://localhost:5000${settings.prospectus}`}
-                target="_blank"
-                rel="noreferrer"
-                className="flex-1 sm:flex-initial bg-white/10 hover:bg-white/20 text-white px-6 py-2.5 sm:px-8 sm:py-3 rounded-xl border border-white/20 backdrop-blur-md text-xs sm:text-sm flex items-center justify-center gap-2 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
-              >
+           <a
+  href={`${import.meta.env.VITE_SERVER_URL}${settings.prospectus}`}
+  target="_blank"
+  rel="noreferrer"
+  className="flex-1 sm:flex-initial bg-white/10 hover:bg-white/20 text-white px-6 py-2.5 sm:px-8 sm:py-3 rounded-xl border border-white/20 backdrop-blur-md text-xs sm:text-sm flex items-center justify-center gap-2 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+>
                 <FaFileDownload className="text-xs opacity-80" />
                 Download Prospectus
               </a>

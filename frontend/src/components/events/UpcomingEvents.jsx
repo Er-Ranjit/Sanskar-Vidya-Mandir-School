@@ -95,11 +95,11 @@ const UpcomingEvents = () => {
                 {item.image && (
                   <div className="w-full h-52 overflow-hidden relative bg-slate-100 border-b border-slate-100">
                     <img
-                      src={`http://localhost:5000${item.image}`}
-                      alt={item.title}
-                      loading="lazy"
-                      className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                    />
+  src={`${import.meta.env.VITE_SERVER_URL}${item.image}`}
+  alt={item.title}
+  loading="lazy"
+  className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+/>
                   </div>
                 )}
 

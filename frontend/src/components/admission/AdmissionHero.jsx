@@ -56,11 +56,11 @@ const AdmissionHero = () => {
             <div className="w-full flex justify-center mb-3">
               <div className="relative inline-block">
                 <div className="absolute inset-0 rounded-full bg-amber-400 blur-md opacity-20 animate-pulse"></div>
-                <img
-                  src={`http://localhost:5000${settings.logo}`}
-                  alt="School Logo"
-                  className="relative w-14 h-14 md:w-16 md:h-16 rounded-full bg-white p-1 border border-amber-400 shadow-md block mx-auto transition-transform duration-500 group-hover:scale-105"
-                />
+               <img
+  src={`${import.meta.env.VITE_SERVER_URL}${settings.logo}`}
+  alt="School Logo"
+  className="relative w-14 h-14 md:w-16 md:h-16 rounded-full bg-white p-1 border border-amber-400 shadow-md block mx-auto transition-transform duration-500 group-hover:scale-105"
+/>
               </div>
             </div>
           )}
@@ -92,12 +92,12 @@ const AdmissionHero = () => {
             </Link>
 
             {settings?.prospectus ? (
-              <a
-                href={`http://localhost:5000${settings.prospectus}`}
-                target="_blank"
-                rel="noreferrer"
-                className="flex-1 sm:flex-initial bg-white/10 hover:bg-white/20 text-white px-6 py-2.5 rounded-xl border border-white/20 backdrop-blur-md text-xs sm:text-sm flex items-center justify-center gap-2 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
-              >
+             <a
+  href={`${import.meta.env.VITE_SERVER_URL}${settings.prospectus}`}
+  target="_blank"
+  rel="noreferrer"
+  className="flex-1 sm:flex-initial bg-white/10 hover:bg-white/20 text-white px-6 py-2.5 rounded-xl border border-white/20 backdrop-blur-md text-xs sm:text-sm flex items-center justify-center gap-2 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+>
                 <FaFileDownload className="text-xs opacity-80" />
                 Download Prospectus
               </a>

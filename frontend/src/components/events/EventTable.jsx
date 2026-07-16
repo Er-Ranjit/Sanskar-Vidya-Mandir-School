@@ -64,11 +64,11 @@ const EventTable = ({
 
               <td className="p-3">
 
-                <img
-                  src={`http://localhost:5000${event.image}`}
-                  alt={event.title}
-                  className="w-20 h-14 rounded object-cover"
-                />
+               <img
+  src={`${import.meta.env.VITE_SERVER_URL}${event.image}`}
+  alt={event.title}
+  className="w-20 h-14 rounded object-cover"
+/>
 
               </td>
 

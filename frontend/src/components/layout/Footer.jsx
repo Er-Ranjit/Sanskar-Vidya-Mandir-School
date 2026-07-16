@@ -50,7 +50,7 @@ const Footer = () => {
               {settings?.logo && (
 
                 <img
-                  src={`http://localhost:5000${settings.logo}`}
+                  src={`${import.meta.env.VITE_SERVER_URL}${settings.logo}`}
                   alt="School Logo"
                   className="w-20 h-20 rounded-full bg-white p-2 mb-5"
                 />

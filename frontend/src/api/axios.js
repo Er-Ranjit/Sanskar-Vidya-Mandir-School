@@ -1,17 +1,14 @@
 import axios from "axios";
 
-const API = axios.create({
-  baseURL: "https://sanskar-vidya-mandir-school.onrender.com/api",
+const API = `${import.meta.env.VITE_API_URL}/settings`;
+
+const authConfig = () => ({
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
+  },
 });
 
-API.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
+export const getSettings = () => axios.get(API);
 
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-
-  return config;
-});
-
-export default API;
+export const updateSettings = (data) =>
+  axios.put(API, data, authConfig());

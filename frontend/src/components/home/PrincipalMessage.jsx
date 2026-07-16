@@ -11,9 +11,8 @@ const PrincipalMessage = () => {
   const fetchSettings = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:5000/api/settings"
-      );
-
+  `${import.meta.env.VITE_API_URL}/settings`
+);
       setSettings(data.settings);
     } catch (error) {
       console.log(error);
@@ -38,14 +37,14 @@ const PrincipalMessage = () => {
           
           <div className="relative overflow-hidden rounded-2xl shadow-2xl border border-slate-100 max-w-sm w-full bg-slate-50">
             <img
-              src={
-                settings?.principalPhoto
-                  ? `http://localhost:5000${settings.principalPhoto}`
-                  : "https://placeholder.com"
-              }
-              alt="Principal"
-              className="w-full h-[520px] object-cover transition-transform duration-700 group-hover:scale-[1.03] select-none"
-            />
+  src={
+    settings?.principalPhoto
+      ? `${import.meta.env.VITE_SERVER_URL}${settings.principalPhoto}`
+      : "https://placeholder.com"
+  }
+  alt="Principal"
+  className="w-full h-[520px] object-cover transition-transform duration-700 group-hover:scale-[1.03] select-none"
+/>
             {/* Soft gradient shade inside portrait card layout */}
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950/30 via-transparent to-transparent"></div>
           </div>

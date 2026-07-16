@@ -35,8 +35,8 @@ const GalleryForm = ({
       });
 
       setPreview(
-        `http://localhost:5000${editingGallery.image}`
-      );
+  `${import.meta.env.VITE_SERVER_URL}${editingGallery.image}`
+);
     }
   }, [editingGallery]);
 

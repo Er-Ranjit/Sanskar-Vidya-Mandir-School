@@ -60,14 +60,14 @@ const GalleryTable = ({
               <td className="px-5 py-4">
 
                 <img
-                  src={
-                    item.image
-                      ? `http://localhost:5000${item.image}`
-                      : "/no-image.png"
-                  }
-                  alt={item.title}
-                  className="w-24 h-16 object-cover rounded-lg border"
-                />
+  src={
+    item.image
+      ? `${import.meta.env.VITE_SERVER_URL}${item.image}`
+      : "/no-image.png"
+  }
+  alt={item.title}
+  className="w-24 h-16 object-cover rounded-lg border"
+/>
 
               </td>
 

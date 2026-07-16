@@ -87,7 +87,7 @@ const LatestNotices = () => {
                 <div className="w-full sm:w-auto flex justify-end">
                   {notice.file ? (
                     <a
-                      href={`http://localhost:5000${notice.file}`}
+                      href={`${notice.file}`}
                       target="_blank"
                       rel="noreferrer"
                       className="w-full sm:w-auto bg-gradient-to-r from-slate-900 to-indigo-950 hover:from-indigo-600 hover:to-indigo-700 text-white font-semibold px-6 py-2.5 rounded-xl flex items-center justify-center gap-2 text-xs md:text-sm shadow-md hover:shadow-indigo-600/20 transition-all duration-300"

@@ -64,7 +64,7 @@ const Navbar = () => {
           <img
             src={
               settings?.logo
-                ? `http://localhost:5000${settings.logo}`
+                ? `${import.meta.env.VITE_SERVER_URL}${settings.logo}`
                 : "/logo.png"
             }
             alt="School Logo"

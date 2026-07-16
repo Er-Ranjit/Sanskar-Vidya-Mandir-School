@@ -35,7 +35,7 @@ const GalleryGrid = ({ gallery, loading }) => {
             >
 
               <img
-                src={`http://localhost:5000${item.image}`}
+                src={`${import.meta.env.VITE_SERVER_URL}${item.image}`}
                 alt={item.title}
                 className="w-full h-80 object-cover transition duration-700 group-hover:scale-110"
               />

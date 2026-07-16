@@ -74,13 +74,13 @@ const SettingsForm = ({ settings, fetchSettings }) => {
 
       if (settings.logo) {
         setPreview(
-          `http://localhost:5000${settings.logo}`
+          `${import.meta.env.VITE_SERVER_URL}${settings.logo}`
         );
       }
 
       if (settings.principalPhoto) {
         setPrincipalPreview(
-          `http://localhost:5000${settings.principalPhoto}`
+          `${import.meta.env.VITE_SERVER_URL}${settings.principalPhoto}`
         );
       }
     }

@@ -62,14 +62,14 @@ const PrincipalSection = () => {
             
             <div className="relative overflow-hidden rounded-2xl shadow-2xl border border-slate-100 bg-slate-50 w-full max-w-sm lg:max-w-none">
               <img
-                src={
-                  settings?.principalPhoto
-                    ? `http://localhost:5000${settings.principalPhoto}`
-                    : "https://placehold.co/500x600?text=Principal"
-                }
-                alt="Principal"
-                className="w-full h-[480px] lg:h-[520px] object-cover transition-transform duration-700 group-hover:scale-[1.03] select-none"
-              />
+  src={
+    settings?.principalPhoto
+      ? `${import.meta.env.VITE_SERVER_URL}${settings.principalPhoto}`
+      : "https://placehold.co/500x600?text=Principal"
+  }
+  alt="Principal"
+  className="w-full h-[480px] lg:h-[520px] object-cover transition-transform duration-700 group-hover:scale-[1.03] select-none"
+/>
               {/* Soft inner shadow frame overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/20 via-transparent to-transparent"></div>
             </div>

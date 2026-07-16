@@ -43,8 +43,8 @@ const EventForm = ({
       });
 
       setPreview(
-        `http://localhost:5000${editingEvent.image}`
-      );
+  `${import.meta.env.VITE_SERVER_URL}${editingEvent.image}`
+);
 
     }
 

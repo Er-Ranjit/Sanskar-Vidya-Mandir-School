@@ -120,11 +120,11 @@ const DownloadSection = () => {
                 {/* Right Area: Premium Shimmer Download Action Button */}
                 <div className="flex-shrink-0 pt-4 sm:pt-0 border-t border-slate-50 sm:border-0">
                   <a
-                    href={`http://localhost:5000${item.file}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="group/btn relative inline-flex items-center justify-center gap-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3.5 rounded-2xl font-bold text-sm tracking-wide shadow-md shadow-blue-500/10 hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300 transform active:scale-[0.98] overflow-hidden w-full sm:w-auto"
-                  >
+  href={`${import.meta.env.VITE_SERVER_URL}${item.file}`}
+  target="_blank"
+  rel="noreferrer"
+  className="group/btn relative inline-flex items-center justify-center gap-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3.5 rounded-2xl font-bold text-sm tracking-wide shadow-md shadow-blue-500/10 hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300 transform active:scale-[0.98] overflow-hidden w-full sm:w-auto"
+>
                     {/* Internal Hover Shimmer Strip Line */}
                     <div className="absolute top-0 left-0 w-full h-full bg-white/10 transform -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700 ease-out" />
                     
