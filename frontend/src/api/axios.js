@@ -1,14 +1,17 @@
 import axios from "axios";
 
-const API = `${import.meta.env.VITE_API_URL}/settings`;
-
-const authConfig = () => ({
-  headers: {
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
-  },
+const API = axios.create({
+  baseURL: import.meta.env.VITE_SERVER_URL,
 });
 
-export const getSettings = () => axios.get(API);
+API.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
 
-export const updateSettings = (data) =>
-  axios.put(API, data, authConfig());
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+
+  return config;
+});
+
+export default API;
