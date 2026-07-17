@@ -94,9 +94,16 @@ export const loginAdmin = async (req, res) => {
     console.log("Token Generated Successfully");
 
     res.status(200).json({
-      success: true,
-      token,
-    });
+  success: true,
+  message: "Login Successfully",
+  token,
+  admin: {
+    _id: admin._id,
+    name: admin.name,
+    email: admin.email,
+    role: admin.role,
+  },
+});
 
   } catch (error) {
     console.error("LOGIN ERROR:", error);
