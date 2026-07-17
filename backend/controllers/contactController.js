@@ -1,5 +1,4 @@
 import Contact from "../models/Contact.js";
-import transporter from "../config/mail.js";
 import asyncHandler from "../utils/asyncHandler.js";
 
 // ==========================
@@ -10,7 +9,7 @@ export const addContact = asyncHandler(async (req, res) => {
 
   const { name, email, phone, subject, message } = req.body;
 
-  // 1. Frontend inputs checking
+  // 1. Frontend validation check
   if (!name || !email || !phone || !message) {
     return res.status(400).json({
       success: false,
@@ -18,49 +17,23 @@ export const addContact = asyncHandler(async (req, res) => {
     });
   }
 
-  // 2. Safe Subject Handling for missing form elements
-  const finalSubject = subject && subject.trim() !== "" ? subject.trim() : "New Inquiry from Website Contact Form";
-
-  // 3. Database Entry
-  const contact = await Contact.create({
+  // 2. Data Mapping (Handling missing subject safely)
+  const contactData = {
     name: name.trim(),
     email: email.trim().toLowerCase(),
     phone: phone.trim(),
-    subject: finalSubject,
     message: message.trim(),
-  });
+    // ✅ Automated default text set if frontend misses subject field
+    subject: subject && subject.trim() !== "" ? subject.trim() : "New Inquiry from Website Contact Form"
+  };
 
-  // 4. Safe email execution thread inside sub-try block to prevent server 500 crash
-  try {
-    const adminEmail = process.env.ADMIN_EMAIL || process.env.EMAIL_USER;
+  // 3. Save to MongoDB Database safely
+  const newContact = await Contact.create(contactData);
 
-    if (adminEmail && process.env.EMAIL_USER) {
-      await transporter.sendMail({
-        from: `"Sanskar Vidya Mandir Website" <${process.env.EMAIL_USER}>`,
-        to: adminEmail,
-        replyTo: email,
-        subject: `📩 New Contact Message - ${finalSubject}`,
-        html: `
-          <h2>New Contact Form Submission</h2>
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Phone:</strong> ${phone}</p>
-          <p><strong>Subject:</strong> ${finalSubject}</p>
-          <p><strong>Message:</strong></p>
-          <p>${message}</p>
-        `,
-      });
-      console.log("Contact notification email processed successfully.");
-    }
-  } catch (mailError) {
-    console.error("NODEMAILER ERROR (Safely bypassed to avoid server crash):", mailError.message);
-  }
-
-  // 5. Always send back a 201 response once database is updated
-  return res.status(201).json({
+  res.status(201).json({
     success: true,
-    message: "Message Sent Successfully 🎉",
-    contact,
+    message: "Message Sent Successfully! 🎉",
+    contact: newContact,
   });
 });
 
