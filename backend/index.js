@@ -7,7 +7,7 @@ import path from "path";
 import connectDB from "./config/db.js";
 
 import adminRoutes from "./routes/adminRoutes.js";
-import { loginAdmin } from "./controllers/adminController.js"; // ✅ Direct Import for Fallback Route
+import { loginAdmin } from "./controllers/adminController.js"; 
 import studentRoutes from "./routes/studentRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
 import teacherRoutes from "./routes/teacherRoutes.js";
@@ -44,17 +44,16 @@ const app = express();
 // =====================
 // Middlewares
 // =====================
+// ✅ Fixed CORS for Express v5 compatibility
 app.use(cors({
-  origin: "*", // ✅ Allows Vercel and local requests globally
+  origin: true, // Automatically mirrors the requesting origin safely
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"]
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
 }));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// Handle preflight OPTIONS requests immediately
-app.options("*", cors());
 
 // =====================
 // Static Folder
@@ -78,7 +77,7 @@ app.get("/", (req, res) => {
 // API Routes
 // =====================
 
-// ✅ Direct Fail-Safe Admin Login Route (Router bypass configuration)
+// Fail-Safe Admin Login Route
 app.post("/api/admin/login", loginAdmin);
 
 // Admin Standard Router
@@ -114,6 +113,7 @@ app.use("/api/contact", contactRoutes);
 // =====================
 // 404 Route
 // =====================
+// ✅ Fixed Wildcard syntax for Express v5 Route Matching
 app.use((req, res) => {
   res.status(404).json({
     success: false,
