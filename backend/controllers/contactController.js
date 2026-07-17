@@ -1,5 +1,9 @@
-import Contact from "../models/Contact.js";
+// ✅ Import changed to resolve export mismatch automatically
+import * as ContactModule from "../models/Contact.js";
 import transporter from "../config/mail.js";
+
+// Safe resolve handler for mongoose dynamic models
+const Contact = ContactModule.default || ContactModule;
 
 // ==========================
 // Add Contact
@@ -28,9 +32,9 @@ export const addContact = async (req, res) => {
       message,
     });
 
-    // 4. Try sending email safely (Wrap in try-catch to avoid 500 crash if env variables are missing)
+    // 4. Try sending email safely
     try {
-      const adminEmail = process.env.ADMIN_EMAIL || process.env.EMAIL_USER; // Fallback to EMAIL_USER if ADMIN_EMAIL is missing
+      const adminEmail = process.env.ADMIN_EMAIL || process.env.EMAIL_USER;
 
       if (adminEmail) {
         await transporter.sendMail({
@@ -51,11 +55,9 @@ export const addContact = async (req, res) => {
         console.log("Contact Email Sent Successfully");
       }
     } catch (mailError) {
-      // If email config fails, log it but DO NOT crash the server
       console.error("NODEMAILER ERROR (Bypassed to prevent 500):", mailError.message);
     }
 
-    // 5. Always respond with 201 success if database entry is done
     return res.status(201).json({
       success: true,
       message: "Message Sent Successfully 🎉",
