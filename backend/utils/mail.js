@@ -1,24 +1,27 @@
-import nodemailer from "nodemailer";
+import axios from "axios";
 import dotenv from "dotenv";
 
 dotenv.config();
 
-const transporter = nodemailer.createTransport({
-  host: process.env.EMAIL_HOST,
-  port: Number(process.env.EMAIL_PORT),
-  secure: false,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
+const BREVO_API_URL = "https://api.brevo.com/v3/smtp/email";
 
-transporter.verify((err) => {
-  if (err) {
-    console.error("❌ SMTP Error:", err);
-  } else {
-    console.log("✅ Brevo SMTP Connected");
-  }
-});
-
-export default transporter;
+export async function sendEmail({ to, subject, html }) {
+  const response = await axios.post(
+    BREVO_API_URL,
+    {
+      sender: { name: "Sanskar Vidya Mandir", email: process.env.EMAIL_USER },
+      to: [{ email: to }],
+      subject,
+      htmlContent: html,
+    },
+    {
+      headers: {
+        "api-key": process.env.BREVO_API_KEY,
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      timeout: 10000,
+    }
+  );
+  return response.data;
+}
