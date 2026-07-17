@@ -9,7 +9,7 @@ export async function sendEmail({ to, subject, html }) {
   const response = await axios.post(
     BREVO_API_URL,
     {
-      sender: { name: "Sanskar Vidya Mandir", email: process.env.EMAIL_USER },
+      sender: { name: "Sanskar Vidya Mandir", email: process.env.SENDER_EMAIL },
       to: [{ email: to }],
       subject,
       htmlContent: html,
