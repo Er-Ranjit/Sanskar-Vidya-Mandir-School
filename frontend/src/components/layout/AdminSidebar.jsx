@@ -10,7 +10,8 @@ import {
   LogOut,
 } from "lucide-react";
 
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom"; // ✅ Added useNavigate
+import toast from "react-hot-toast"; // For logout confirmation message
 
 const menus = [
   {
@@ -56,6 +57,19 @@ const menus = [
 ];
 
 const AdminSidebar = () => {
+  const navigate = useNavigate(); // ✅ Initialized router navigate hook
+
+  // ✅ Added Safe Logout Handler Logic
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("admin");
+    
+    toast.success("Logged out successfully");
+    
+    // Redirect to base or login path securely
+    navigate("/login", { replace: true });
+  };
+
   return (
     <aside className="w-72 min-h-screen bg-slate-900 text-white flex flex-col">
 
@@ -99,7 +113,11 @@ const AdminSidebar = () => {
       {/* Logout */}
       <div className="border-t border-slate-700 p-6">
 
-        <button className="flex items-center gap-3 text-red-400 hover:text-red-500">
+        {/* ✅ Bound the handleLogout method to button element */}
+        <button 
+          onClick={handleLogout}
+          className="flex items-center gap-3 text-red-400 hover:text-red-500 w-full text-left"
+        >
 
           <LogOut size={20} />
 
