@@ -6,8 +6,8 @@ import path from "path";
 
 import connectDB from "./config/db.js";
 
+// Routes Imports
 import adminRoutes from "./routes/adminRoutes.js";
-import { loginAdmin } from "./controllers/adminController.js"; 
 import studentRoutes from "./routes/studentRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
 import teacherRoutes from "./routes/teacherRoutes.js";
@@ -20,33 +20,14 @@ import contactRoutes from "./routes/contactRoutes.js";
 
 import errorMiddleware from "./middleware/errorMiddleware.js";
 
-// =====================
-// Load Environment Variables
-// =====================
 dotenv.config();
-
-// =====================
-// DNS Settings
-// =====================
-dns.setServers([
-  "8.8.8.8",
-  "8.8.4.4",
-  "1.1.1.1",
-]);
-
-// =====================
-// Connect Database
-// =====================
+dns.setServers(["8.8.8.8", "8.8.4.4", "1.1.1.1"]);
 await connectDB();
 
 const app = express();
 
-// =====================
-// Middlewares
-// =====================
-// ✅ Fixed CORS for Express v5 compatibility
 app.use(cors({
-  origin: true, // Automatically mirrors the requesting origin safely
+  origin: true,
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
@@ -55,82 +36,31 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// =====================
-// Static Folder
-// =====================
-app.use(
-  "/uploads",
-  express.static(path.join(process.cwd(), "uploads"))
-);
+app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
-// =====================
-// Home Route
-// =====================
 app.get("/", (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: "🚀 Sanskar Vidya Mandir Backend Running Securely",
-  });
+  res.status(200).json({ success: true, message: "🚀 Backend Running" });
 });
 
-// =====================
-// API Routes
-// =====================
-
-// Fail-Safe Admin Login Route
-app.post("/api/admin/login", loginAdmin);
-
-// Admin Standard Router
+// ✅ Explicit prefix routing for subfolder layout
 app.use("/api/admin", adminRoutes);
-
-// Students
 app.use("/api/students", studentRoutes);
-
-// Dashboard
 app.use("/api/dashboard", dashboardRoutes);
-
-// Teachers
 app.use("/api/teachers", teacherRoutes);
-
-// Admissions
 app.use("/api/admissions", admissionRoutes);
-
-// Gallery
 app.use("/api/gallery", galleryRoutes);
-
-// Events
 app.use("/api/events", eventRoutes);
-
-// Notices
 app.use("/api/notices", noticeRoutes);
-
-// Settings
 app.use("/api/settings", settingsRoutes);
-
-// Contact
 app.use("/api/contact", contactRoutes);
 
-// =====================
-// 404 Route
-// =====================
-// ✅ Fixed Wildcard syntax for Express v5 Route Matching
 app.use((req, res) => {
-  res.status(404).json({
-    success: false,
-    message: `Route Not Found - ${req.method} ${req.url}`,
-  });
+  res.status(404).json({ success: false, message: `404 - Not Found` });
 });
 
-// =====================
-// Error Middleware
-// =====================
 app.use(errorMiddleware);
 
-// =====================
-// Server
-// =====================
 const PORT = process.env.PORT || 5000;
-
 app.listen(PORT, () => {
   console.log(`🚀 Server Running On Port ${PORT}`);
 });
