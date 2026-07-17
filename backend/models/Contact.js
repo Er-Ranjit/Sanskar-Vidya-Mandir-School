@@ -1,51 +1,44 @@
-import Contact from "../models/Contact.js";
-import asyncHandler from "../utils/asyncHandler.js";
+import mongoose from "mongoose";
 
-// =============================
-// Submit Contact Form
-// =============================
-export const submitContact = asyncHandler(async (req, res) => {
-  console.log("RECEIVED CONTACT DATA:", req.body);
-
-  const { name, email, phone, message, subject } = req.body;
-
-  // 1. Frontend validation check
-  if (!name || !email || !phone || !message) {
-    return res.status(400).json({
-      success: false,
-      message: "Please fill all the fields (Name, Email, Phone, Message).",
-    });
+const contactSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      trim: true,
+      lowercase: true,
+    },
+    phone: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    subject: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    message: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    status: {
+      type: String,
+      enum: ["Unread", "Read"],
+      default: "Unread",
+    },
+  },
+  {
+    timestamps: true,
   }
+);
 
-  // 2. Data Mapping (Handling missing subject safely)
-  const contactData = {
-    name: name.trim(),
-    email: email.trim().toLowerCase(),
-    phone: phone.trim(),
-    message: message.trim(),
-    // ✅ Agar frontend se subject nahi aaya, toh automated default text set ho jayega
-    subject: subject && subject.trim() !== "" ? subject.trim() : "New Inquiry from Website Contact Form"
-  };
-
-  // 3. Save to MongoDB Database safely
-  const newContact = await Contact.create(contactData);
-
-  res.status(201).json({
-    success: true,
-    message: "Message Sent Successfully! 🎉",
-    data: newContact,
-  });
-});
-
-// =============================
-// Get All Contacts (For Admin Dashboard)
-// =============================
-export const getContacts = asyncHandler(async (req, res) => {
-  const contacts = await Contact.find().sort({ createdAt: -1 }).lean();
-
-  res.status(200).json({
-    success: true,
-    total: contacts.length,
-    contacts,
-  });
-});
+// Sahi standard export configuration taaki default export error jadd se khatam ho jaye
+const Contact = mongoose.models.Contact || mongoose.model("Contact", contactSchema);
+export default Contact;
