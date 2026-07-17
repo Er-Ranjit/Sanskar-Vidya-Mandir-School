@@ -40,15 +40,19 @@ export const registerAdmin = async (req, res) => {
     res.status(201).json({
       success: true,
       message: "Admin registered successfully",
-      data: admin,
+      data: {
+        _id: admin._id,
+        name: admin.name,
+        email: admin.email,
+        role: admin.role
+      },
     });
 
   } catch (error) {
-    console.log(error);
-
+    console.error("REGISTER ERROR:", error);
     res.status(500).json({
       success: false,
-      message: "Server Error",
+      message: "Server Error during registration",
     });
   }
 };
@@ -60,16 +64,18 @@ export const loginAdmin = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    console.log("JWT_SECRET =", process.env.JWT_SECRET);
+    console.log("Attempting login for email:", email);
+    console.log("JWT_SECRET status:", process.env.JWT_SECRET ? "Loaded" : "Missing");
 
     const admin = await Admin.findOne({ email });
 
-    console.log("Admin =", admin);
+    console.log("Admin lookup result:", admin ? "Found" : "Not Found");
 
+    // ✅ Changed status from 404 to 400 to prevent browser "Route Not Found" confusion
     if (!admin) {
-      return res.status(404).json({
+      return res.status(400).json({
         success: false,
-        message: "Admin not found",
+        message: "Admin account not found. Please register first.",
       });
     }
 
@@ -82,34 +88,37 @@ export const loginAdmin = async (req, res) => {
       });
     }
 
+    // Ensure JWT_SECRET is available
+    const secretKey = process.env.JWT_SECRET || "fallback_secret_key_for_safety";
+
     const token = jwt.sign(
       {
         id: admin._id,
         role: admin.role,
       },
-      process.env.JWT_SECRET,
+      secretKey,
       { expiresIn: "7d" }
     );
 
     console.log("Token Generated Successfully");
 
     res.status(200).json({
-  success: true,
-  message: "Login Successfully",
-  token,
-  admin: {
-    _id: admin._id,
-    name: admin.name,
-    email: admin.email,
-    role: admin.role,
-  },
-});
+      success: true,
+      message: "Login Successfully",
+      token,
+      admin: {
+        _id: admin._id,
+        name: admin.name,
+        email: admin.email,
+        role: admin.role,
+      },
+    });
 
   } catch (error) {
     console.error("LOGIN ERROR:", error);
     res.status(500).json({
       success: false,
-      message: error.message,
+      message: error.message || "Internal Server Error during login",
     });
   }
 };
