@@ -5,22 +5,53 @@ import asyncHandler from "../utils/asyncHandler.js";
 // Add Student
 // =============================
 export const addStudent = asyncHandler(async (req, res) => {
+  const { name, className, rollNumber, phone, email, address } = req.body;
 
-  const student = await Student.create(req.body);
+  // 1. Check required fields manually to catch early errors
+  if (!name || (!className && !req.body.class) || !rollNumber) {
+    return res.status(400).json({
+      success: false,
+      message: "Name, Class, and Roll Number are required.",
+    });
+  }
+
+  // 2. Map frontend 'className' to mongoose 'class' field if required by schema
+  const studentData = {
+    name,
+    class: className || req.body.class, // Fallback check for schema compatibility
+    rollNumber: Number(rollNumber),
+    phone: phone || "",
+    email: email || "",
+    address: address || ""
+  };
+
+  // 3. Double-check unique database constraints to avoid 500 crash
+  const existingStudent = await Student.findOne({ 
+    rollNumber: studentData.rollNumber, 
+    class: studentData.class 
+  });
+  
+  if (existingStudent) {
+    return res.status(400).json({
+      success: false,
+      message: `Roll number ${rollNumber} already exists in this class.`,
+    });
+  }
+
+  // 4. Save Entry safely
+  const student = await Student.create(studentData);
 
   res.status(201).json({
     success: true,
     message: "Student Added Successfully",
     student,
   });
-
 });
 
 // =============================
 // Get All Students
 // =============================
 export const getStudents = asyncHandler(async (req, res) => {
-
   const students = await Student.find()
     .sort({ createdAt: -1 })
     .lean();
@@ -30,14 +61,12 @@ export const getStudents = asyncHandler(async (req, res) => {
     total: students.length,
     students,
   });
-
 });
 
 // =============================
 // Get Single Student
 // =============================
 export const getStudentById = asyncHandler(async (req, res) => {
-
   const student = await Student.findById(req.params.id).lean();
 
   if (!student) {
@@ -51,14 +80,12 @@ export const getStudentById = asyncHandler(async (req, res) => {
     success: true,
     student,
   });
-
 });
 
 // =============================
 // Update Student
 // =============================
 export const updateStudent = asyncHandler(async (req, res) => {
-
   const student = await Student.findByIdAndUpdate(
     req.params.id,
     req.body,
@@ -80,14 +107,12 @@ export const updateStudent = asyncHandler(async (req, res) => {
     message: "Student Updated Successfully",
     student,
   });
-
 });
 
 // =============================
 // Delete Student
 // =============================
 export const deleteStudent = asyncHandler(async (req, res) => {
-
   const student = await Student.findByIdAndDelete(req.params.id);
 
   if (!student) {
@@ -101,5 +126,4 @@ export const deleteStudent = asyncHandler(async (req, res) => {
     success: true,
     message: "Student Deleted Successfully",
   });
-
 });
